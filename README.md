@@ -115,6 +115,7 @@ os.system("mpg123 -a hw:1,0 output.mp3 /home/pi/output.mp3")
 ```
 
 flow.jsonの中身をコピー
+https://github.com/t-a1024/raspberrypi/blob/main/flow.json
 ブラウザで、下のページにアクセス
 <IPアドレス>:1880
 ⌘iで、flow.jsonの中身をペースト
