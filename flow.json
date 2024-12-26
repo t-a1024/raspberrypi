@@ -1,0 +1,175 @@
+[
+    {
+        "id": "cbf439f24799a2ec",
+        "type": "tab",
+        "label": "フロー 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b97f06ac5120ac9f",
+        "type": "http request",
+        "z": "cbf439f24799a2ec",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://weather.tsukumijima.net/api/forecast/city/270000",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 370,
+        "y": 580,
+        "wires": [
+            [
+                "69aa91cdefb68caf"
+            ]
+        ]
+    },
+    {
+        "id": "48c22422b65edd7e",
+        "type": "debug",
+        "z": "cbf439f24799a2ec",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "69aa91cdefb68caf",
+        "type": "function",
+        "z": "cbf439f24799a2ec",
+        "name": "function 1",
+        "func": "if (!msg.payload || !msg.payload.forecasts || msg.payload.forecasts.length === 0) {\n    msg.payload = \"天気データが取得できませんでした。\";\n    return msg;\n}\n\n// データが正しく存在する場合の処理\nlet title = msg.payload.title;\nlet forecast = msg.payload.forecasts[0]; // 今日の予報\nlet weather = forecast.telop;\nmsg.payload = \"今日の天気は\"+weather+\"です\";\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 660,
+        "wires": [
+            [
+                "48c22422b65edd7e",
+                "dff6aa2643ce9d89"
+            ]
+        ]
+    },
+    {
+        "id": "1bca3329337b2cf1",
+        "type": "rbe",
+        "z": "cbf439f24799a2ec",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 350,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "af0d54ea9e9414d6",
+        "type": "switch",
+        "z": "cbf439f24799a2ec",
+        "name": "",
+        "property": "msg.payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 1,
+        "x": 350,
+        "y": 480,
+        "wires": [
+            [
+                "b97f06ac5120ac9f"
+            ]
+        ]
+    },
+    {
+        "id": "dff6aa2643ce9d89",
+        "type": "exec",
+        "z": "cbf439f24799a2ec",
+        "command": "python3 /home/pi/speak.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 520,
+        "y": 800,
+        "wires": [
+            [
+                "e7d35f1f822810f7"
+            ],
+            [
+                "e7d35f1f822810f7"
+            ],
+            [
+                "e7d35f1f822810f7"
+            ]
+        ]
+    },
+    {
+        "id": "e7d35f1f822810f7",
+        "type": "debug",
+        "z": "cbf439f24799a2ec",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "27f940876e493b21",
+        "type": "rpi-gpio in",
+        "z": "cbf439f24799a2ec",
+        "name": "",
+        "pin": "18",
+        "intype": "up",
+        "debounce": "25",
+        "read": true,
+        "bcm": true,
+        "x": 160,
+        "y": 380,
+        "wires": [
+            [
+                "af0d54ea9e9414d6"
+            ]
+        ]
+    }
+]
