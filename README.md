@@ -1,11 +1,15 @@
 # ラズパイの動かし方
-Raspberry PI Imager
+Raspberry PI Imagerを起動
+
 Raspberry PIデバイス、OS、ストレージを以下の画像のとうりに選択する。
 ![初期設定](スクリーンショット%202024-12-26%2023.29.32.png)
 次へ->設定を編集する
+
 一般->Wi-Fiを設定する
+
 サービス->SSHを有効化する->公開鍵認証のみを許可する(どっちでもいいかも)
-オプション->特になし
+
+オプションは特になし
 保存->はい->はい(警告は無視でいい)
 
 書き込みが始まる(結構時間かかる)
@@ -20,13 +24,17 @@ $ ping raspberrypi.local
 ```
 64 bytes from <IPアドレス>: icmp_seq=0 ttl=64 time=224.162 ms
 ```
+のようなものがたくさん出るはず
+
+出なければラズパイが起動するまで待ってからやり直してください
+
 ラズパイのIPアドレスがわかったら、以下のコマンドでssh接続
 ```bash
 $ ssh pi@<IPアドレス>
 ```
-のようなものがたくさん出るはず
+するとターミナルのコマンドを打つ場所が黄緑色になってるはず。
+pi@raspberrypi:~ $
 
-Node-REDの起動
 Node.jsとnpmをインストール
 ```bash
 $ sudo apt update
@@ -41,13 +49,14 @@ node-redの起動
 $ node-red-pi
 ```
 ブラウザで、下のページにアクセス
+
 <IPアドレス>:1880
+
 node-redのフロー1が見れるはず
 
-右上のハンバーガーバー -> パレットの管理(option+shift+p)
-->ノードの追加->node-red-node-pi-gpioを検索、追加
+右上のハンバーガーバー -> パレットの管理(option+shift+p)->ノードの追加->node-red-node-pi-gpioを検索、追加
 
-controle+Cで一旦停止
+control+Cで一旦停止
 
 サービスファイルの作成
 ```bash
@@ -72,7 +81,9 @@ WorkingDirectory=/home/pi
 WantedBy=multi-user.target
 ```
 Ctrl + X を押す
+
 Y を押して保存
+
 Enter を押して終了
 
 サービスの再読み込みと有効化
@@ -118,8 +129,10 @@ flow.jsonの中身をコピー
 
 https://github.com/t-a1024/raspberrypi/blob/main/flow.json
 
-ブラウザで、下のページにアクセス
+ブラウザで、下のページにアクセス(Node-REDのページ)
+
 <IPアドレス>:1880
+
 ⌘iで、flow.jsonの中身をペースト
 デプロイ
 
