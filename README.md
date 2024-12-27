@@ -137,7 +137,14 @@ https://github.com/t-a1024/raspberrypi/blob/main/flow.json
 デプロイ
 
 これで、センサー同士がくっついている状態から離れたタイミングに天気予報がなるはずです。
+
 動作確認ができたら接続を解除して大丈夫です。
 ```bash
 $ exit
 ```
+
+使用したモジュール、API
+
+[node-red-node-pi-gpio](https://github.com/node-red/node-red-nodes/tree/master/hardware/PiGpio)
+
+[天気予報API](https://weather.tsukumijima.net/)
